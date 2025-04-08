@@ -2,6 +2,8 @@ import { Link, Routes, Route } from "react-router-dom";
 import { FaUsers } from "react-icons/fa6";
 import { FaWarehouse } from "react-icons/fa6";
 import { FaFileInvoice } from "react-icons/fa";
+import ProductPage from "./admin/product";
+import AddProduct from "./admin/addProduct";
 
 export default function AdminPage() {
     return(
@@ -14,8 +16,9 @@ export default function AdminPage() {
             <div className="w-[calc(100vw-250px)] h-full bg-white rounded-lg">
                 <Routes path="/*">
                     <Route path="/users" element={<h1>Users</h1>} />
-                    <Route path="/products" element={<h1>Products</h1>} />
+                    <Route path="/products" element={<ProductPage/>} />
                     <Route path="/orders" element={<h1>Orders</h1>} />
+                    <Route path="/addProduct" element={<AddProduct/>} />
                 </Routes>
             </div>
         </div>
