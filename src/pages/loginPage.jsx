@@ -2,12 +2,36 @@ import { useState } from "react"
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import { GrGoogle } from "react-icons/gr";
 
 export default function LoginPage() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const googleLogin = useGoogleLogin(
+        {
+            onSuccess:(res)=>{
+                setLoading(true);
+                axios.post(import.meta.env.VITE_BACKEND_URL+"/api/user/google", {
+                    accessToken: res.access_token
+                }).then((res)=>{
+                    console.log("Google login success", res.data);
+                    toast.success("Login successful");
+                    localStorage.setItem("token", res.data.token);
+                    const user = res.data.user;
+                    if(user.role === "admin") {
+                        navigate("/admin/");
+                    } else {
+                        navigate("/");
+                    }
+                    setLoading(false);
+
+                })
+            }
+        }
+    );
 
     function handleLogin() {
         setLoading(true);
@@ -42,8 +66,12 @@ export default function LoginPage() {
                 <div className="w-[350px] h-[450px] backdrop-blur-xl shadow-xl rounded-xl flex justify-center items-center flex-col">
                     <input onChange={(e)=>{setEmail(e.target.value)}} className="w-[250px] h-[40px] border border-white rounded-xl text-center m-[5px]" type="email" placeholder="Email"/>
                     <input onChange={(e)=>{setPassword(e.target.value)}} className="w-[250px] h-[40px] border border-white rounded-xl text-center m-[5px]" type="password" placeholder="Password"/>
-                    <button type="submit" onClick={handleLogin} className="w-[250px] h-[40px] bg-green-600 rounded-xl cursor-pointer">
+                    <button type="submit" onClick={handleLogin} className="w-[250px] h-[40px] bg-green-600 rounded-xl cursor-pointer text-white">
                         {loading?"Loading...":"Login"}
+                    </button>
+                    <button className="w-[250px] h-[40px] mt-[10px] flex justify-center items-center bg-green-600 rounded-xl cursor-pointer text-white" onClick={googleLogin}>
+                        <GrGoogle className="mr-[10px]"/>
+                        Login with Google
                     </button>
                     <p className="text-gray-600 mt-5">
                         Don't have an account? &nbsp;
