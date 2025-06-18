@@ -17,12 +17,12 @@ export default function CartPage(){
     }, [cartLoaded])
     return(
         <div className="w-full h-full flex justify-center p-[40px]">
-            <div className="w-[500px]">
+            <div className="w-full lg:w-[500px]">
                 {
                     cart.map((item, index)=>{
                         return(
-                            <div key={index} className="w-full h-[100px] my-[5px] bg-white shadow-2xl flex justify-between items-center relative">
-                                <button className="absolute bg-red-400 right-[-50px] p-[6px] rounded-full text-white flex justify-center items-center cursor-pointer" 
+                            <div key={index} className="w-full p-4 lg:p-0 lg:h-[100px] my-[5px] bg-white shadow-2xl flex flex-col lg:flex-row justify-between items-center relative">
+                                <button className="absolute bg-red-400 right-4 top-2 lg:right-[-50px] p-[6px] rounded-full text-white flex justify-center items-center cursor-pointer" 
                                 style={{ boxShadow: '0 4px 10px rgba(255, 0, 0, 0.6)' }}
                                 onClick={()=>{
                                     removeFromCart(item.productId);
@@ -30,8 +30,8 @@ export default function CartPage(){
                                 }}>
                                     <TbTrash/>
                                 </button>
-                                <img src={item.image} className="h-full aspect-square object-cover"/>
-                                <div className="h-full max-w-[300px] w-[300px] overflow-hidden">
+                                <img src={item.image} className="h-[100px] lg:h-full aspect-square object-cover"/>
+                                <div className="h-full max-w-[300px] w-[300px] overflow-hidden lg:items-start lg:ml-4 flex flex-col items-center p-2">
                                     <h1 className="text-lg font-bold">{item.name}</h1>
                                     <p className="text-gray-500 text-sm">{item.altNames.join(" | ")}</p>
                                     <p className="text-gray-500 text-sm">LKR: {item.price.toFixed(2)}</p>
