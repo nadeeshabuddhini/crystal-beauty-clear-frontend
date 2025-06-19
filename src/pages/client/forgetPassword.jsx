@@ -31,7 +31,7 @@ export default function ForgetPassword() {
         axios.post(import.meta.env.VITE_BACKEND_URL + '/api/user/resetPassword', { 
             email: email, 
             otp: otp, 
-            newPassword: password 
+            password: password 
         }).then((res) => {
             console.log(res.data);
             toast.success("Password reset successfully! You can now log in with your new password.");
